@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">快聊</string>
+    <string name="WelcomeMessage">KTalk</string>
+    <string name="login">登录</string>
+    <string name="login_userName">用户名：</string>
+    <string name="login_register">注册</string>
+    <string name="main_conversation">会话</string>
+    <string name="main_contacts">通讯录</string>
+    <string name="main_setting">我的</string>
+    <string name="login_out">退出当前账号</string>
+    <string name="fr_setting">设置</string>
+    <string name="fr_contact_invite">好友邀请</string>
+    <string name="fr_contact_group">群组</string>
+    <string name="act_add_friend">添加朋友</string>
+    <string name="act_add_find">查找</string>
+    <string name="act_add_name">名称</string>
+    <string name="act_add_add">添加</string>
+    <string name="invite_massage">邀请信息</string>
+    <string name="item_invite_name">名称</string>
+    <string name="item_invite_reason">原因</string>
+</resources>
