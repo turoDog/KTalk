@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.EaseUser;
@@ -35,6 +39,7 @@ public class ContactListFragment extends EaseContactListFragment {
     private ImageView iv_contact_red;
     private LocalBroadcastManager mLocalBroadcastManager;
     private LinearLayout ll_contact_invite;
+    private String mHxid;
 
     private BroadcastReceiver ContactInviteChangeReceiver = new BroadcastReceiver() {
         @Override
@@ -106,8 +111,12 @@ public class ContactListFragment extends EaseContactListFragment {
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         mLocalBroadcastManager.registerReceiver(ContactInviteChangeReceiver, new IntentFilter(Constant.CONTACT_INVITE_CHANGED));
         mLocalBroadcastManager.registerReceiver(ContactChangeReceiver, new IntentFilter(Constant.CONTACT_CHANGED));
+
         // 从环信服务器获取所有的联系人信息
         getContactFromHxServer();
+
+        // 绑定listview和contextmenu
+        registerForContextMenu(listView);
     }
 
     private void getContactFromHxServer() {
@@ -178,6 +187,79 @@ public class ContactListFragment extends EaseContactListFragment {
             // 刷新页面
             refresh();
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        // 获取环信id
+        int position = ((AdapterView.AdapterContextMenuInfo) menuInfo).position;
+
+        EaseUser easeUser = (EaseUser) listView.getItemAtPosition(position);
+
+        mHxid = easeUser.getUsername();
+
+        // 添加布局
+        getActivity().getMenuInflater().inflate(R.menu.delete, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.contact_delete) {
+            // 执行删除选中的联系人操作
+            deleteContact();
+
+            return true;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    // 执行删除选中的联系人操作
+    private void deleteContact() {
+
+        Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
+            @Override
+            public void run() {
+                // 从环信服务器中删除联系人
+                try {
+                    EMClient.getInstance().contactManager().deleteContact(mHxid);
+
+                    // 本地数据库的更新
+                    Model.getInstance().getDbManager().getContactTableDao().deleteContactByHxId(mHxid);
+
+                    if (getActivity() == null) {
+                        return;
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // toast提示
+                            Toast.makeText(getActivity(), "删除" + mHxid + "成功", Toast.LENGTH_SHORT).show();
+
+                            // 刷新页面
+                            refreshContact();
+                        }
+                    });
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+
+                    if (getActivity() == null) {
+                        return;
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "删除" + mHxid + "失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override
