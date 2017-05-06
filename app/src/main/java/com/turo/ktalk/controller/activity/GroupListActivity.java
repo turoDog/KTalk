@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class GroupListActivity extends Activity {
 
     private ListView lv_grouplist;
     private GroupListAdapter groupListAdapter;
+    private LinearLayout ll_grouplist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,16 @@ public class GroupListActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        // 跳转到新建群
+        ll_grouplist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupListActivity.this, NewGroupActivity.class);
+
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView() {
@@ -72,6 +84,8 @@ public class GroupListActivity extends Activity {
         // 添加头布局
         View headerView = View.inflate(this, R.layout.header_grouplist, null);
         lv_grouplist.addHeaderView(headerView);
+
+        ll_grouplist = (LinearLayout) headerView.findViewById(R.id.ll_grouplist);
     }
 
     private void initData() {
@@ -119,6 +133,14 @@ public class GroupListActivity extends Activity {
     // 刷新
     private void refresh() {
         groupListAdapter.refresh(EMClient.getInstance().groupManager().getAllGroups());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 刷新页面
+        refresh();
     }
 
 }
