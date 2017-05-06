@@ -97,6 +97,7 @@ public class ContactListFragment extends EaseContactListFragment {
 
         // 邀请信息条目点击事件
         ll_contact_invite.setOnClickListener(v -> {
+
             // 红点处理
             iv_contact_red.setVisibility(View.GONE);
             SpUtils.getInstance().save(SpUtils.IS_NEW_INVITE, false);
