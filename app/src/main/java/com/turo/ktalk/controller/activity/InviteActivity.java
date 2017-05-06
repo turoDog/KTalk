@@ -1,7 +1,12 @@
 package com.turo.ktalk.controller.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -11,6 +16,7 @@ import com.turo.ktalk.R;
 import com.turo.ktalk.controller.adapter.InviteAdapter;
 import com.turo.ktalk.model.Model;
 import com.turo.ktalk.model.bean.InvationInfo;
+import com.turo.ktalk.utils.Constant;
 
 import java.util.List;
 
@@ -18,6 +24,7 @@ public class InviteActivity extends Activity {
 
     private ListView lv_invite;
     private InviteAdapter inviteAdapter;
+    private LocalBroadcastManager mLocalBroadcastManager;
 
     private InviteAdapter.OnInviteListener mOnInviteListener = new InviteAdapter.OnInviteListener() {
         @Override
@@ -117,7 +124,20 @@ public class InviteActivity extends Activity {
         
         //刷新方法
         refresh();
+
+        // 注册邀请信息变化的广播
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+        mLocalBroadcastManager.registerReceiver(InviteChangedReceiver,new IntentFilter(Constant.CONTACT_INVITE_CHANGED));
     }
+
+    //邀请信息变化广播接收器
+    private BroadcastReceiver InviteChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //只要接收到邀请信息变化的广播，就刷新页面
+            refresh();
+        }
+    };
 
     private void refresh() {
         // 获取数据库中的所有邀请信息
@@ -129,5 +149,11 @@ public class InviteActivity extends Activity {
 
     private void initView() {
         lv_invite = (ListView) findViewById(R.id.lv_invite);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLocalBroadcastManager.unregisterReceiver(InviteChangedReceiver);
     }
 }
