@@ -20,6 +20,7 @@ import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.exceptions.HyphenateException;
 import com.turo.ktalk.R;
 import com.turo.ktalk.controller.activity.ChatActivity;
+import com.turo.ktalk.controller.activity.GroupListActivity;
 import com.turo.ktalk.controller.activity.InviteActivity;
 import com.turo.ktalk.controller.activity.addContactActivity;
 import com.turo.ktalk.model.Model;
@@ -92,6 +93,17 @@ public class ContactListFragment extends EaseContactListFragment {
 
                 // 传递参数
                 intent.putExtra(EaseConstant.EXTRA_USER_ID, user.getUsername());
+
+                startActivity(intent);
+            }
+        });
+
+        // 跳转到群组列表页面
+        LinearLayout ll_contact_group = (LinearLayout) headerView.findViewById(R.id.ll_contact_group);
+        ll_contact_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), GroupListActivity.class);
 
                 startActivity(intent);
             }
