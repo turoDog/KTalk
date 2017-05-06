@@ -14,10 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.exceptions.HyphenateException;
 import com.turo.ktalk.R;
+import com.turo.ktalk.controller.activity.ChatActivity;
 import com.turo.ktalk.controller.activity.InviteActivity;
 import com.turo.ktalk.controller.activity.addContactActivity;
 import com.turo.ktalk.model.Model;
@@ -76,6 +78,25 @@ public class ContactListFragment extends EaseContactListFragment {
 
         // 获取邀请信息条目的对象
         ll_contact_invite = (LinearLayout) headerView.findViewById(R.id.ll_contact_invite);
+
+        // 设置listview条目的点击事件
+        setContactListItemClickListener(new EaseContactListItemClickListener() {
+            @Override
+            public void onListItemClicked(EaseUser user) {
+
+                if (user == null) {
+                    return;
+                }
+
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+
+                // 传递参数
+                intent.putExtra(EaseConstant.EXTRA_USER_ID, user.getUsername());
+
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
