@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.hyphenate.chat.EMGroup;
+import com.turo.ktalk.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +54,31 @@ public class GroupListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+        // 创建或获取viewholder
+        ViewHolder holder = null;
+        if(convertView == null) {
+            holder = new ViewHolder();
+
+            convertView = View.inflate(mContext, R.layout.item_grouplist, null);
+
+            holder.name = (TextView) convertView.findViewById(R.id.tv_grouplist_name);
+
+            convertView.setTag(holder);
+        }else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        // 获取当前item数据
+        EMGroup emGroup = mGroups.get(position);
+
+        // 显示数据
+        holder.name.setText(emGroup.getGroupName());
+
+        // 返回数据
+        return convertView;
+    }
+
+    private class ViewHolder{
+        TextView name;
     }
 }
