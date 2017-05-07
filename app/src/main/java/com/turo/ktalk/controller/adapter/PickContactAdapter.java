@@ -87,4 +87,20 @@ public class PickContactAdapter extends BaseAdapter {
         private CheckBox cb;
         private TextView tv_name;
     }
+
+    // 获取选择的联系人
+    public List<String> getPickContacts() {
+
+        List<String> picks = new ArrayList<>();
+
+        for (PickContactInfo pick: mPicks){
+
+            // 判断是否选中
+            if(pick.isChecked()) {
+                picks.add(pick.getUser().getName());
+            }
+        }
+
+        return picks;
+    }
 }

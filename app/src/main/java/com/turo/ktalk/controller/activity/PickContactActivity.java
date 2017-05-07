@@ -1,6 +1,7 @@
 package com.turo.ktalk.controller.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -53,6 +54,26 @@ public class PickContactActivity extends Activity {
 
                 // 刷新页面
                 pickContactAdapter.notifyDataSetChanged();
+            }
+        });
+
+        // 保存按钮的点击事件
+        tv_pick_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 获取到已经选择的联系人
+                List<String> names = pickContactAdapter.getPickContacts();
+
+                // 给启动页面返回数据
+                Intent intent = new Intent();
+
+                intent.putExtra("members", names.toArray(new String[0]));
+
+                // 设置返回的结果码
+                setResult(RESULT_OK, intent);
+
+                // 结束当前页面
+                finish();
             }
         });
     }
