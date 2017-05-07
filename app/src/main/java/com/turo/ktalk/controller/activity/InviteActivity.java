@@ -104,6 +104,26 @@ public class InviteActivity extends Activity {
             });
 
         }
+
+        @Override
+        public void onInviteAccept(InvationInfo invationInfo) {
+            
+        }
+
+        @Override
+        public void onInviteReject(InvationInfo invationInfo) {
+
+        }
+
+        @Override
+        public void onApplicationAccept(InvationInfo invationInfo) {
+
+        }
+
+        @Override
+        public void onApplicationReject(InvationInfo invationInfo) {
+
+        }
     };
 
     @Override
