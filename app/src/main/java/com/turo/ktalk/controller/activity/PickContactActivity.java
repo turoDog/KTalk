@@ -94,7 +94,7 @@ public class PickContactActivity extends Activity {
         }
 
         // 初始化listview
-        pickContactAdapter = new PickContactAdapter(this, mPicks, mExistMembers);
+        pickContactAdapter = new PickContactAdapter(this, mPicks);
 
         lv_pick.setAdapter(pickContactAdapter);
     }

@@ -13,6 +13,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.exceptions.HyphenateException;
 import com.turo.ktalk.R;
+import com.turo.ktalk.controller.adapter.GroupDetailAdapter;
 import com.turo.ktalk.model.Model;
 import com.turo.ktalk.utils.Constant;
 
@@ -22,6 +23,7 @@ public class GroupDetailActivity extends Activity {
     private GridView gv_groupdetail;
     private Button bt_groupdetail_out;
     private EMGroup mGroup;
+    private GroupDetailAdapter groupDetailAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,9 @@ public class GroupDetailActivity extends Activity {
     private void initData() {
         // 初始化button显示
         initButtonDisplay();
+
+        // 初始化gridview
+        initGridview();
     }
 
     private void initButtonDisplay() {
@@ -153,6 +158,15 @@ public class GroupDetailActivity extends Activity {
         intent.putExtra(Constant.GROUP_ID, mGroup.getGroupId());
 
         mlocalBroadcastManager.sendBroadcast(intent);
+    }
+
+    private void initGridview() {
+        // 当前用户是群组 || 群公开了
+        boolean isCanModify = EMClient.getInstance().getCurrentUser().equals(mGroup.getOwner()) || mGroup.isPublic();
+
+        groupDetailAdapter = new GroupDetailAdapter(this, isCanModify);
+
+        gv_groupdetail.setAdapter(groupDetailAdapter);
     }
 
 
