@@ -2,6 +2,9 @@ package com.turo.ktalk.controller.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +33,28 @@ public class PickContactActivity extends Activity {
         initView();
 
         initData();
+
+        initListener();
+    }
+
+    private void initListener() {
+        // listview条目点击事件
+        lv_pick.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                // checkbox的切换
+                CheckBox cb_pick = (CheckBox) view.findViewById(R.id.cb_pick);
+                cb_pick.setChecked(!cb_pick.isChecked());
+
+                // 修改数据
+                PickContactInfo pickContactInfo = mPicks.get(position);
+                pickContactInfo.setIsChecked(cb_pick.isChecked());
+
+                // 刷新页面
+                pickContactAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void initData() {
