@@ -105,24 +105,139 @@ public class InviteActivity extends Activity {
 
         }
 
+        // 接受邀请按钮
         @Override
         public void onInviteAccept(InvationInfo invationInfo) {
-            
+            Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        // 告诉环信服务器接受了邀请
+                        EMClient.getInstance().groupManager().acceptInvitation(invationInfo.getGroup().getGroupId(), invationInfo.getGroup().getInvatePerson());
+
+                        // 本地数据更新
+                        invationInfo.setStatus(InvationInfo.InvitationStatus.GROUP_ACCEPT_INVITE);
+                        Model.getInstance().getDbManager().getInviteTableDao().addInvitation(invationInfo);
+
+                        // 内存数据的变化
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(InviteActivity.this, "接受邀请", Toast.LENGTH_SHORT).show();
+
+                                // 刷新页面
+                                refresh();
+                            }
+                        });
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(InviteActivity.this, "接受邀请失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            });
         }
 
+        // 拒绝邀请按钮
         @Override
         public void onInviteReject(InvationInfo invationInfo) {
+            Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        // 告诉环信服务器拒绝了邀请
+                        EMClient.getInstance().groupManager().declineInvitation(invationInfo.getGroup().getGroupId(), invationInfo.getGroup().getInvatePerson(),"拒绝邀请");
 
+                        // 更新本地数据库
+                        invationInfo.setStatus(InvationInfo.InvitationStatus.GROUP_REJECT_INVITE);
+                        Model.getInstance().getDbManager().getInviteTableDao().addInvitation(invationInfo);
+
+                        // 更新内存的数据
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(InviteActivity.this, "拒绝邀请", Toast.LENGTH_SHORT).show();
+
+                                // 刷新页面
+                                refresh();
+                            }
+                        });
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
 
+        // 接受申请按钮
         @Override
         public void onApplicationAccept(InvationInfo invationInfo) {
+            Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        // 告诉环信服务器接受了申请
+                        EMClient.getInstance().groupManager().acceptApplication(invationInfo.getGroup().getGroupId(), invationInfo.getGroup().getInvatePerson());
 
+                        // 更新数据库
+                        invationInfo.setStatus(InvationInfo.InvitationStatus.GROUP_ACCEPT_APPLICATION);
+                        Model.getInstance().getDbManager().getInviteTableDao().addInvitation(invationInfo);
+
+                        // 更新内存
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(InviteActivity.this, "接受申请", Toast.LENGTH_SHORT).show();
+
+                                refresh();
+                            }
+                        });
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
 
+        //拒绝申请按钮
         @Override
         public void onApplicationReject(InvationInfo invationInfo) {
+            Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        // 告诉环信服务器拒绝了申请
+                        EMClient.getInstance().groupManager().declineApplication(invationInfo.getGroup().getGroupId(),invationInfo.getGroup().getInvatePerson(),"拒绝申请");
 
+                        // 更新本地数据库
+                        invationInfo.setStatus(InvationInfo.InvitationStatus.GROUP_REJECT_APPLICATION);
+                        Model.getInstance().getDbManager().getInviteTableDao().addInvitation(invationInfo);
+
+                        // 更新内存
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(InviteActivity.this, "拒绝申请", Toast.LENGTH_SHORT).show();
+
+                                refresh();
+                            }
+                        });
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(InviteActivity.this, "拒绝申请失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            });
         }
     };
 
