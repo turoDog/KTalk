@@ -128,6 +128,7 @@ public class InviteActivity extends Activity {
         // 注册邀请信息变化的广播
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
         mLocalBroadcastManager.registerReceiver(InviteChangedReceiver,new IntentFilter(Constant.CONTACT_INVITE_CHANGED));
+        mLocalBroadcastManager.registerReceiver(InviteChangedReceiver, new IntentFilter(Constant.GROUP_INVITE_CHANGED));
     }
 
     //邀请信息变化广播接收器
