@@ -55,6 +55,16 @@ public class GroupDetailAdapter extends BaseAdapter {
         mUsers.add(0, add);
     }
 
+    // 获取当前的删除模式
+    public boolean ismIsDeleteModel() {
+        return mIsDeleteModel;
+    }
+
+    // 设置当前的删除模式
+    public void setmIsDeleteModel(boolean mIsDeleteModel) {
+        this.mIsDeleteModel = mIsDeleteModel;
+    }
+
     @Override
     public int getCount() {
         return mUsers == null ? 0 : mUsers.size();
@@ -137,18 +147,24 @@ public class GroupDetailAdapter extends BaseAdapter {
                 holder.photo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if(!mIsDeleteModel) {
+                            mIsDeleteModel = true;
+                            notifyDataSetChanged();
+                        }
                     }
                 });
             }else if(position == getCount() - 2) {// 加号的位置
                 holder.photo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        mOnGroupDetailListener.onAddMembers();
                     }
                 });
             }else {
                 holder.delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        mOnGroupDetailListener.onDeleteMember(userInfo);
                     }
                 });
             }

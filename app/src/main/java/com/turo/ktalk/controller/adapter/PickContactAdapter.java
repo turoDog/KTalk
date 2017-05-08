@@ -23,13 +23,17 @@ public class PickContactAdapter extends BaseAdapter {
     private List<PickContactInfo> mPicks = new ArrayList<>();
     private List<String> mExistMembers = new ArrayList<>();// 保存群中已经存在的成员集合
 
-    public PickContactAdapter(Context context,List<PickContactInfo> picks) {
+    public PickContactAdapter(Context context,List<PickContactInfo> picks,List<String> existMembers) {
         this.mContext = context;
 
         if (picks != null && picks.size() >= 0) {
             mPicks.clear();
             mPicks.addAll(picks);
         }
+
+        // 加载已经存在的成员集合
+        mExistMembers.clear();
+        mExistMembers.addAll(existMembers);
     }
 
     @Override

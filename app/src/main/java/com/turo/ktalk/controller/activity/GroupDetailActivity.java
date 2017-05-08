@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -30,16 +31,88 @@ public class GroupDetailActivity extends Activity {
     private GroupDetailAdapter groupDetailAdapter;
     private List<UserInfo> mUsers;
     private GroupDetailAdapter.OnGroupDetailListener mOnGroupDetailListener = new GroupDetailAdapter.OnGroupDetailListener() {
+        // 添加群成员
         @Override
         public void onAddMembers() {
+            // 跳转到选择联系人页面
+            Intent intent = new Intent(GroupDetailActivity.this, PickContactActivity.class);
 
+            // 传递群id
+            intent.putExtra(Constant.GROUP_ID, mGroup.getGroupId());
+
+            startActivityForResult(intent, 2);
         }
 
+        // 删除群成员方法
         @Override
         public void onDeleteMember(UserInfo user) {
+            Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        // 从环信服务器中删除此人
+                        EMClient.getInstance().groupManager().removeUserFromGroup(mGroup.getGroupId(), user.getHxid());
 
+                        // 更新页面
+                        getMembersFromHxServer();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(GroupDetailActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    } catch (final HyphenateException e) {
+                        e.printStackTrace();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(GroupDetailActivity.this, "删除失败" + e.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            });
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            // 获取返回的准备邀请的群成员信息
+            final String[] memberses = data.getStringArrayExtra("members");
+
+            Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        // 去环信服务器，发送邀请信息
+                        EMClient.getInstance().groupManager().addUsersToGroup(mGroup.getGroupId(), memberses);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(GroupDetailActivity.this, "发送邀请成功", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } catch (final HyphenateException e) {
+                        e.printStackTrace();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(GroupDetailActivity.this, "发送邀请失败" + e.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +124,32 @@ public class GroupDetailActivity extends Activity {
         getData();
 
         initData();
+
+        initListener();
+    }
+
+    private void initListener() {
+        gv_groupdetail.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+
+                        // 判断当前是否是删除模式,如果是删除模式
+                        if(groupDetailAdapter.ismIsDeleteModel()) {
+                            // 切换为非删除模式
+                            groupDetailAdapter.setmIsDeleteModel(false);
+
+                            // 刷新页面
+                            groupDetailAdapter.notifyDataSetChanged();
+                        }
+                        break;
+                }
+
+                return false;
+            }
+        });
     }
 
     private void initView() {

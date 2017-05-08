@@ -1,9 +1,13 @@
 package com.turo.ktalk.controller.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 
 import com.hyphenate.chat.EMMessage;
@@ -18,6 +22,8 @@ public class ChatActivity extends FragmentActivity {
 
     private String mHxid;
     private EaseChatFragment easeChatFragment;
+    private LocalBroadcastManager mLocalBroadcastManager;
+    private int mChatType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,24 @@ public class ChatActivity extends FragmentActivity {
                 return null;
             }
         });
+
+        // 如果当前类型为群聊
+        if(mChatType == EaseConstant.CHATTYPE_GROUP) {
+
+            // 注册退群广播
+            BroadcastReceiver ExitGroupReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    if(mHxid.equals(intent.getStringExtra(Constant.GROUP_ID))) {
+                        // 结束当前页面
+                        finish();
+                    }
+                }
+            };
+
+            mLocalBroadcastManager.registerReceiver(ExitGroupReceiver, new IntentFilter(Constant.EXIT_GROUP));
+        }
     }
 
     private void intiData() {
@@ -82,10 +106,16 @@ public class ChatActivity extends FragmentActivity {
 
         mHxid = getIntent().getStringExtra(EaseConstant.EXTRA_USER_ID);
 
+        // 获取聊天类型
+        mChatType = getIntent().getExtras().getInt(EaseConstant.EXTRA_CHAT_TYPE);
+
         easeChatFragment.setArguments(getIntent().getExtras());
 
         // 替换fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_chat, easeChatFragment).commit();
+
+        // 获取发送广播的管理者
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(ChatActivity.this);
     }
 }

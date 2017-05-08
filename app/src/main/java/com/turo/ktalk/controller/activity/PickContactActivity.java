@@ -9,11 +9,14 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
 import com.turo.ktalk.R;
 import com.turo.ktalk.controller.adapter.PickContactAdapter;
 import com.turo.ktalk.model.Model;
 import com.turo.ktalk.model.bean.PickContactInfo;
 import com.turo.ktalk.model.bean.UserInfo;
+import com.turo.ktalk.utils.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +28,35 @@ public class PickContactActivity extends Activity {
     private ListView lv_pick;
     private PickContactAdapter pickContactAdapter;
     private List<PickContactInfo> mPicks;
+    private List<String> mExistMembers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_contact);
 
+        // 获取传递过来的数据
+        getData();
+
         initView();
 
         initData();
 
         initListener();
+    }
+
+    private void getData() {
+        String groupId = getIntent().getStringExtra(Constant.GROUP_ID);
+
+        if (groupId != null) {
+            EMGroup group = EMClient.getInstance().groupManager().getGroup(groupId);
+            // 获取群众已经存在的所有群成员
+            mExistMembers = group.getMembers();
+        }
+
+        if (mExistMembers == null) {
+            mExistMembers = new ArrayList<>();
+        }
     }
 
     private void initListener() {
@@ -94,7 +115,7 @@ public class PickContactActivity extends Activity {
         }
 
         // 初始化listview
-        pickContactAdapter = new PickContactAdapter(this, mPicks);
+        pickContactAdapter = new PickContactAdapter(this, mPicks, mExistMembers);
 
         lv_pick.setAdapter(pickContactAdapter);
     }
