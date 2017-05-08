@@ -15,6 +15,7 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.turo.ktalk.R;
 import com.turo.ktalk.controller.adapter.GroupDetailAdapter;
 import com.turo.ktalk.model.Model;
+import com.turo.ktalk.model.bean.UserInfo;
 import com.turo.ktalk.utils.Constant;
 
 //群详情页面
@@ -24,6 +25,17 @@ public class GroupDetailActivity extends Activity {
     private Button bt_groupdetail_out;
     private EMGroup mGroup;
     private GroupDetailAdapter groupDetailAdapter;
+    private GroupDetailAdapter.OnGroupDetailListener mOnGroupDetailListener = new GroupDetailAdapter.OnGroupDetailListener() {
+        @Override
+        public void onAddMembers() {
+
+        }
+
+        @Override
+        public void onDeleteMember(UserInfo user) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +176,7 @@ public class GroupDetailActivity extends Activity {
         // 当前用户是群组 || 群公开了
         boolean isCanModify = EMClient.getInstance().getCurrentUser().equals(mGroup.getOwner()) || mGroup.isPublic();
 
-        groupDetailAdapter = new GroupDetailAdapter(this, isCanModify);
+        groupDetailAdapter = new GroupDetailAdapter(this, isCanModify, mOnGroupDetailListener);
 
         gv_groupdetail.setAdapter(groupDetailAdapter);
     }
