@@ -18,6 +18,9 @@ import com.turo.ktalk.model.Model;
 import com.turo.ktalk.model.bean.UserInfo;
 import com.turo.ktalk.utils.Constant;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //群详情页面
 public class GroupDetailActivity extends Activity {
 
@@ -25,6 +28,7 @@ public class GroupDetailActivity extends Activity {
     private Button bt_groupdetail_out;
     private EMGroup mGroup;
     private GroupDetailAdapter groupDetailAdapter;
+    private List<UserInfo> mUsers;
     private GroupDetailAdapter.OnGroupDetailListener mOnGroupDetailListener = new GroupDetailAdapter.OnGroupDetailListener() {
         @Override
         public void onAddMembers() {
@@ -72,6 +76,49 @@ public class GroupDetailActivity extends Activity {
 
         // 初始化gridview
         initGridview();
+
+        // 从环信服务器获取所有的群成员
+        getMembersFromHxServer();
+    }
+
+    private void getMembersFromHxServer() {
+        Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // 从环信服务器获取所有的群成员信息
+                    EMGroup emGroup = EMClient.getInstance().groupManager().getGroupFromServer(mGroup.getGroupId());
+                    List<String> members = emGroup.getMembers();
+
+                    if (members != null && members.size() >= 0) {
+                        mUsers = new ArrayList<UserInfo>();
+
+                        // 转换
+                        for (String member : members) {
+                            UserInfo userInfo = new UserInfo(member);
+                            mUsers.add(userInfo);
+                        }
+                    }
+
+                    // 更新页面
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // 刷新适配器
+                            groupDetailAdapter.refresh(mUsers);
+                        }
+                    });
+                } catch (final HyphenateException e) {
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(GroupDetailActivity.this, "获取群信息失败" + e.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void initButtonDisplay() {
