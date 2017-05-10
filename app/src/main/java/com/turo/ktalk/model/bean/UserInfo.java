@@ -52,4 +52,14 @@ public class UserInfo {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "name='" + name + '\'' +
+                ", hxid='" + hxid + '\'' +
+                ", nick='" + nick + '\'' +
+                ", photo='" + photo + '\'' +
+                '}';
+    }
 }

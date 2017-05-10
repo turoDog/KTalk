@@ -141,7 +141,7 @@ public class InviteAdapter extends BaseAdapter {
             switch(invationInfo.getStatus()){
                 // 您的群申请请已经被接受
                 case GROUP_APPLICATION_ACCEPTED:
-                    hodler.reason.setText("您的群申请请已经被接受");
+                    hodler.reason.setText("您的群申请已经被接受");
                     break;
                 //  您的群邀请已经被接收
                 case GROUP_INVITE_ACCEPTED:

@@ -29,7 +29,7 @@ public class PickContactInfo {
         return isChecked;
     }
 
-    public void setIsChecked(boolean checked) {
-        isChecked = checked;
+    public void setIsChecked(boolean isChecked) {
+        this.isChecked = isChecked;
     }
 }

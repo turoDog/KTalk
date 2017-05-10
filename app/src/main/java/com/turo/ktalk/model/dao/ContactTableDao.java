@@ -17,8 +17,8 @@ import java.util.List;
 public class ContactTableDao {
     private DBHelper mHelper;
 
-    public ContactTableDao(DBHelper mHelper) {
-        this.mHelper = mHelper;
+    public ContactTableDao(DBHelper helper) {
+        mHelper = helper;
     }
 
     // 获取所有联系人

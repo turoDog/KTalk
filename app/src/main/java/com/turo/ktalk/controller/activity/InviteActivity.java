@@ -28,7 +28,7 @@ public class InviteActivity extends Activity {
 
     private InviteAdapter.OnInviteListener mOnInviteListener = new InviteAdapter.OnInviteListener() {
         @Override
-        public void onAccept(InvationInfo invationInfo) {
+        public void onAccept(final InvationInfo invationInfo) {
             //通知环信服务器，点击了接受按钮
             Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
                 @Override

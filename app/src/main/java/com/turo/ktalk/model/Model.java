@@ -39,6 +39,9 @@ public class Model {
 
         //创建用户账号数据库的操作类对象
         userAccountDao = new UserAccountDao(mContext);
+
+        //开启全局监听
+        EventListener eventListener = new EventListener(mContext);
     }
 
 
