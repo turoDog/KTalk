@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="espresso-idling-resource-2.2.2">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/ba7522e736b4279090afa8be49d9e6832de7cc2b/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/ba7522e736b4279090afa8be49d9e6832de7cc2b/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/ec9c254ecbb43b9d4954dd6cc507090e79da1d85/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/ec9c254ecbb43b9d4954dd6cc507090e79da1d85/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../Android/AndroidSDK/extras/android/m2repository/com/android/support/test/espresso/espresso-idling-resource/2.2.2/espresso-idling-resource-2.2.2-sources.jar!/" />
+      <root url="jar://E:/Android/AndroidSDK/extras/android/m2repository/com/android/support/test/espresso/espresso-idling-resource/2.2.2/espresso-idling-resource-2.2.2-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

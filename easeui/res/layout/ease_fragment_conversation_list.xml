@@ -23,14 +23,13 @@
     </FrameLayout>
 
 
-    <com.hyphenate.easeui.widget.EaseConversationList
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:cacheColorHint="#00000000"
-        android:divider="@null"
-        hyphenate:cvsListPrimaryTextSize="16sp"
-         />
+	<com.hyphenate.easeui.widget.EaseConversationList
+		android:id="@+id/list"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@android:color/transparent"
+		android:cacheColorHint="#00000000"
+		android:divider="@null"
+		hyphenate:cvsListPrimaryTextSize="16sp" />
 
 </LinearLayout>

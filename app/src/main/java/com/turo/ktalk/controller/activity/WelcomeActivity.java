@@ -36,35 +36,32 @@ public class WelcomeActivity extends Activity {
 //            }
 //        }.start();
 
-        Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
-            @Override
-            public void run() {
-                //判断当前账号是否已登录过
-                if (EMClient.getInstance().isLoggedInBefore()){//登录过
-                    //从环信服务器获取到当前登录信息
-                    UserInfo account = Model.getInstance().getUserAccountDao().getAccountByHxId(EMClient.getInstance().getCurrentUser());
+        Model.getInstance().getGlobalThreadPool().execute(() -> {
+            //判断当前账号是否已登录过
+            if (EMClient.getInstance().isLoggedInBefore()){//登录过
+                //从环信服务器获取到当前登录信息
+                UserInfo account = Model.getInstance().getUserAccountDao().getAccountByHxId(EMClient.getInstance().getCurrentUser());
 
-                    if (account == null){
-                        //跳转到登录页面
-                        Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
-                        startActivity(intent);
-                    }else{
-
-                        // 登录成功后的方法
-                        Model.getInstance().loginSuccess(account);
-
-                        //跳转到主界面
-                        Intent intent = new Intent(WelcomeActivity.this,MainActivity.class);
-                        startActivity(intent);
-                    }
-                }else{//没登录过
+                if (account == null){
                     //跳转到登录页面
                     Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
                     startActivity(intent);
+                }else{
+
+                    // 登录成功后的方法
+                    Model.getInstance().loginSuccess(account);
+
+                    //跳转到主界面
+                    Intent intent = new Intent(WelcomeActivity.this,MainActivity.class);
+                    startActivity(intent);
                 }
-                //结束当前页面
-                finish();
+            }else{//没登录过
+                //跳转到登录页面
+                Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
+                startActivity(intent);
             }
+            //结束当前页面
+            finish();
         });
     }
 

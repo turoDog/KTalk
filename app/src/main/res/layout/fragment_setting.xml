@@ -32,8 +32,8 @@
         android:textSize="20sp"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:background="@android:color/holo_red_light"
+        android:background="@drawable/shape_setting_btn"
         android:layout_width="match_parent"
-        android:layout_height="60dp" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -76,57 +76,54 @@ public class LoginActivity extends Activity {
         }
 
         //3、登录逻辑处理
-        Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
-            @Override
-            public void run() {
-            //去环信服务器登录
-                EMClient.getInstance().login(loginName, loginPwd, new EMCallBack() {
-                    //登录成功处理
-                    @Override
-                    public void onSuccess() {
-                        //对模型层数据处理
-                        Model.getInstance().loginSuccess(new UserInfo(loginName));
+        Model.getInstance().getGlobalThreadPool().execute(() -> {
+        //去环信服务器登录
+            EMClient.getInstance().login(loginName, loginPwd, new EMCallBack() {
+                //登录成功处理
+                @Override
+                public void onSuccess() {
+                    //对模型层数据处理
+                    Model.getInstance().loginSuccess(new UserInfo(loginName));
 
-                        //保存用户信息到本地数据库
-                        Model.getInstance().getUserAccountDao().addAccount(new UserInfo(loginName));
+                    //保存用户信息到本地数据库
+                    Model.getInstance().getUserAccountDao().addAccount(new UserInfo(loginName));
 
-                        //提示登录成功
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                    //提示登录成功
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
 
-                                //跳转至主界面
-                                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                            //跳转至主界面
+                            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
 
-                                startActivity(intent);
+                            startActivity(intent);
 
-                                finish();
-                            }
-                        });
+                            finish();
+                        }
+                    });
 
-                    }
+                }
 
-                    //登录失败处理
-                    @Override
-                    public void onError(int i, String s) {
-                        //提示登录失败
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(LoginActivity.this, "登陆失败"+ s, Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                //登录失败处理
+                @Override
+                public void onError(int i, String s) {
+                    //提示登录失败
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginActivity.this, "登陆失败"+ s, Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-                    }
+                }
 
-                    //登录中处理
-                    @Override
-                    public void onProgress(int i, String s) {
+                //登录中处理
+                @Override
+                public void onProgress(int i, String s) {
 
-                    }
-                });
-            }
+                }
+            });
         });
     }
 
@@ -143,32 +140,27 @@ public class LoginActivity extends Activity {
         }
 
         //3、去服务器注册账号
-        Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    //去环信服务器注册账号
-                    EMClient.getInstance().createAccount(registName,registPwd);
+        Model.getInstance().getGlobalThreadPool().execute(() -> {
+            try {
+                //去环信服务器注册账号
+                EMClient.getInstance().createAccount(registName,registPwd);
 
-                    //更新页面显示
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(LoginActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(LoginActivity.this, "注册失败" + e.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+                //更新页面显示
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LoginActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (HyphenateException e) {
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LoginActivity.this, "注册失败" + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
-
-
 }
