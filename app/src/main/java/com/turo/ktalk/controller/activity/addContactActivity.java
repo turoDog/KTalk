@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +20,7 @@ import com.turo.ktalk.model.bean.UserInfo;
 //添加联系人页面
 public class addContactActivity extends Activity {
 
-    private TextView tv_add_find;
+    private ImageView iv_add_find;
     private EditText et_add_name;
     private RelativeLayout rl_add;
     private TextView tv_add_name;
@@ -39,7 +40,7 @@ public class addContactActivity extends Activity {
 
     private void initListener() {
         //查询按钮的点击事件处理
-        tv_add_find.setOnClickListener(new View.OnClickListener() {
+        iv_add_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 find();
@@ -112,7 +113,7 @@ public class addContactActivity extends Activity {
     }
 
     private void initView() {
-        tv_add_find = (TextView) findViewById(R.id.tv_add_find);
+        iv_add_find = (ImageView) findViewById(R.id.iv_add_find);
         et_add_name = (EditText) findViewById(R.id.et_add_name);
         rl_add = (RelativeLayout) findViewById(R.id.rl_add);
         tv_add_name = (TextView) findViewById(R.id.tv_add_name);

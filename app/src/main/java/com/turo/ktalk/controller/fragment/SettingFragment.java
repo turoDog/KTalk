@@ -45,7 +45,8 @@ public class SettingFragment extends Fragment {
 
     private void initData() {
         //在button上显示当前用户名称
-        bt_setting_out.setText("退出当前用户账号（" + EMClient.getInstance().getCurrentUser() + "）");
+        String string = getResources().getString(R.string.login_out);
+        bt_setting_out.setText( string + "(" + EMClient.getInstance().getCurrentUser() + ")");
 
         //退出登录的逻辑处理
         bt_setting_out.setOnClickListener(v -> Model.getInstance().getGlobalThreadPool().execute(() -> {

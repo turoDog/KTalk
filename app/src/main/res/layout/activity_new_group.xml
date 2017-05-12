@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -70,8 +69,8 @@
         android:id="@+id/bt_newgroup_create"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@android:color/holo_green_light"
+        android:layout_margin="10dp"
+        android:background="@drawable/create_group_shape"
         android:text="创建"
         android:textColor="@android:color/white"
         android:textSize="20sp" />

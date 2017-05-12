@@ -14,6 +14,8 @@
     
     <RadioGroup
         android:id="@+id/rg_main"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,8 +23,6 @@
 
         <RadioButton
             android:id="@+id/rb_main_chat"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             android:button="@null"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -30,12 +30,11 @@
             android:drawableTop="@drawable/main_chat"
             android:text="@string/main_chat"
             android:gravity="center"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textColor="@drawable/radiobutton_selector"/>
 
         <RadioButton
             android:id="@+id/rb_main_contacts"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             android:button="@null"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -43,12 +42,11 @@
             android:text="@string/main_contacts"
             android:drawableTop="@drawable/main_contacts"
             android:gravity="center"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textColor="@drawable/radiobutton_selector"/>
 
         <RadioButton
             android:drawableTop="@drawable/main_setting"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             android:button="@null"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -56,7 +54,8 @@
             android:id="@+id/rb_main_setting"
             android:text="@string/main_setting"
             android:gravity="center"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textColor="@drawable/radiobutton_selector"/>
 
     </RadioGroup>
 

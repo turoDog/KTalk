@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
@@ -21,10 +21,12 @@ import com.turo.ktalk.utils.Constant;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 //选择联系人页面
 public class PickContactActivity extends Activity {
 
-    private TextView tv_pick_save;
+    private ImageView iv_pick_save;
     private ListView lv_pick;
     private PickContactAdapter pickContactAdapter;
     private List<PickContactInfo> mPicks;
@@ -79,7 +81,7 @@ public class PickContactActivity extends Activity {
         });
 
         // 保存按钮的点击事件
-        tv_pick_save.setOnClickListener(new View.OnClickListener() {
+        iv_pick_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 获取到已经选择的联系人
@@ -121,7 +123,7 @@ public class PickContactActivity extends Activity {
     }
 
     private void initView() {
-        tv_pick_save = (TextView) findViewById(R.id.tv_pick_save);
+        iv_pick_save = (ImageView) findViewById(R.id.iv_pick_save);
         lv_pick = (ListView) findViewById(R.id.lv_pick);
     }
 }

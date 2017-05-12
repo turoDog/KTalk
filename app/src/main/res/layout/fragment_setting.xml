@@ -9,11 +9,9 @@
         app:titleBarTitle = "设置"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </com.hyphenate.easeui.widget.EaseTitleBar>
 
     <ScrollView
-
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -28,12 +26,13 @@
 
     <Button
         android:id="@+id/bt_setting_out"
-        android:text="@string/login_out"
         android:textSize="20sp"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:background="@drawable/shape_setting_btn"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp" />
 
 </LinearLayout>

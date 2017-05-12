@@ -77,7 +77,7 @@ public class ContactListFragment extends EaseContactListFragment {
         super.initView();
 
         //布局显示加号
-        titleBar.setRightImageResource(R.drawable.ease_blue_add);
+        titleBar.setRightImageResource(R.drawable.contactlist_add);
 
         //添加头布局
         View headerView = View.inflate(getActivity(),R.layout.header_fragment_contact,null);

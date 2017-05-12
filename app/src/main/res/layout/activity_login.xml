@@ -13,8 +13,9 @@
     </com.hyphenate.easeui.widget.EaseTitleBar>
 
     <LinearLayout
+        android:paddingTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:orientation="vertical">
 
         <ImageView
@@ -26,7 +27,7 @@
             android:textSize="30dp"
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="100dp"
             android:text="@string/WelcomeMessage" />
     </LinearLayout>
 
@@ -34,7 +35,7 @@
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        
+
         <TextView
             android:textSize="25sp"
             android:layout_width="wrap_content"
@@ -56,7 +57,7 @@
             android:textSize="25sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="密    码："/>
+            android:text="密码："/>
 
         <EditText
             android:id="@+id/et_login_password"
@@ -65,24 +66,33 @@
             android:inputType="textPassword"/>
     </LinearLayout>
 
-    <Button
-        android:layout_margin="10dp"
-        android:id="@+id/bt_login_regist"
-        android:textSize="25sp"
-        android:textColor="@color/btn_white_normal"
-        android:background="@color/btn_blue_normal"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_register"/>
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_margin="10dp"
-        android:id="@+id/bt_login_login"
-        android:textSize="25sp"
-        android:textColor="@color/btn_white_normal"
-        android:background="@color/btn_blue_normal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/login"/>
+        <Button
+            android:layout_margin="10dp"
+            android:id="@+id/bt_login_regist"
+            android:textSize="25sp"
+            android:textColor="@color/btn_white_normal"
+            android:background="@color/btn_blue_normal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/login_register"/>
+
+        <Button
+            android:layout_margin="10dp"
+            android:id="@+id/bt_login_login"
+            android:textSize="25sp"
+            android:textColor="@color/btn_white_normal"
+            android:background="@color/btn_blue_normal"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/login"/>
+
+    </LinearLayout>
 
 </LinearLayout>
