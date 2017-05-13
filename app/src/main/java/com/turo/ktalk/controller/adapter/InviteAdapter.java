@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.turo.ktalk.R;
@@ -68,8 +68,8 @@ public class InviteAdapter extends BaseAdapter {
             hodler.name = (TextView) convertView.findViewById(R.id.tv_invite_name);
             hodler.reason = (TextView) convertView.findViewById(R.id.tv_invite_reason);
 
-            hodler.accept = (Button) convertView.findViewById(R.id.bt_invite_accept);
-            hodler.reject = (Button) convertView.findViewById(R.id.bt_invite_reject);
+            hodler.accept = (ImageButton) convertView.findViewById(R.id.bt_invite_accept);
+            hodler.reject = (ImageButton) convertView.findViewById(R.id.bt_invite_reject);
 
             convertView.setTag(hodler);
         } else {
@@ -143,9 +143,9 @@ public class InviteAdapter extends BaseAdapter {
                 case GROUP_APPLICATION_ACCEPTED:
                     hodler.reason.setText("您的群申请已经被接受");
                     break;
-                //  您的群邀请已经被接收
+                //  您的群邀请已经被接受
                 case GROUP_INVITE_ACCEPTED:
-                    hodler.reason.setText("您接受了群邀请");
+                    hodler.reason.setText("您的群邀请已经被接受");
                     break;
 
                 // 你的群申请已经被拒绝
@@ -235,8 +235,8 @@ public class InviteAdapter extends BaseAdapter {
         private TextView name;
         private TextView reason;
 
-        private Button accept;
-        private Button reject;
+        private ImageButton accept;
+        private ImageButton reject;
     }
 
     public interface OnInviteListener {

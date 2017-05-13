@@ -32,16 +32,18 @@
             android:textSize="20sp" />
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:layout_marginRight="5dp"
         android:id="@+id/bt_invite_accept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:background="@drawable/invite_agree"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/bt_invite_reject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:background="@drawable/invite_refuse" />
 </LinearLayout>
