@@ -112,7 +112,7 @@ public class LoginActivity extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(LoginActivity.this, "登陆失败"+ s, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "登录失败"+ s, Toast.LENGTH_SHORT).show();
                         }
                     });
 

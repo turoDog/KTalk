@@ -47,7 +47,6 @@ public class SettingFragment extends Fragment {
         //在button上显示当前用户名称
         String string = getResources().getString(R.string.login_out);
         bt_setting_out.setText( string + "(" + EMClient.getInstance().getCurrentUser() + ")");
-
         //退出登录的逻辑处理
         bt_setting_out.setOnClickListener(v -> Model.getInstance().getGlobalThreadPool().execute(() -> {
             //访问环信服务器退出登录
@@ -56,16 +55,12 @@ public class SettingFragment extends Fragment {
                 public void onSuccess() {
                     // 关闭DBHelper
                     Model.getInstance().getDbManager().close();
-
                     getActivity().runOnUiThread(() -> {
                         //更新ui显示
                         Toast.makeText(getActivity(), "退出成功", Toast.LENGTH_SHORT).show();
-
                         //回到登录页面
                         Intent intent = new Intent(getActivity(), LoginActivity.class);
-
                         startActivity(intent);
-
                         getActivity().finish();
                     });
                 }

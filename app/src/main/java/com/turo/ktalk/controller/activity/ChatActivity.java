@@ -62,12 +62,11 @@ public class ChatActivity extends FragmentActivity {
 
             @Override
             public boolean onMessageBubbleClick(EMMessage message) {
-                return  false;
+                return false;
             }
 
             @Override
             public void onMessageBubbleLongClick(EMMessage message) {
-
             }
 
             @Override

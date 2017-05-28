@@ -73,7 +73,9 @@
         <activity android:name=".controller.activity.GroupListActivity" />
         <activity android:name=".controller.activity.NewGroupActivity" />
         <activity android:name=".controller.activity.PickContactActivity" />
-        <activity android:name=".controller.activity.GroupDetailActivity"></activity>
+        <activity android:name=".controller.activity.GroupDetailActivity"/>
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity">
+        </activity>
     </application>
 
 </manifest>
